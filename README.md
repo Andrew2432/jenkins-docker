@@ -14,7 +14,7 @@ This is a custom Docker image of Jenkins built for running host's Docker inside 
 
 <hr>
 
-## Explanation
+### Explanation
 
 Docker inside docker ([docker:dind](https://hub.docker.com/_/docker)) is an image used for running a Docker instance inside a Docker host. This way, we do not depend on host's Docker for executing Docker commands inside another container.
 
