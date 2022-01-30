@@ -9,9 +9,11 @@ services:
     restart: unless-stopped
     ports:
       - "${DOCKER_DIND_PORT}:2376"
+    environment:
+      DOCKER_TLS_CERTDIR: /certs
     volumes:
-      - ${JENKINS_CERTS_PATH}:/certs/client
-      - ${JENKINS_DATA_PATH}:/var/jenkins_home
+      - ${JENKINS_CERTS_PATH}:/certs/client/
+      - ${JENKINS_DATA_PATH}:/var/jenkins_home/
     networks:
       - jenkins_network
 
@@ -24,12 +26,12 @@ services:
     hostname: jenkins
     restart: unless-stopped
     environment:
-      DOCKER_HOST: tcp://docker:${DOCKER_DIND_PORT}
-      DOCKER_CERT_PATH: ${JENKINS_CERTS_PATH}
+      DOCKER_HOST: tcp://jenkins_dind:${DOCKER_DIND_PORT}
+      DOCKER_CERT_PATH: /certs/client
       DOCKER_TLS_VERIFY: 1
     volumes:
       - ${JENKINS_CERTS_PATH}:/certs/client:ro
-      - ${JENKINS_DATA_PATH}:/var/jenkins_home
+      - ${JENKINS_DATA_PATH}:/var/jenkins_home/
     ports:
       - "${HOST_WWW_PORT}:8080"
       - "${HOST_OTHER_PORT}:50000"
